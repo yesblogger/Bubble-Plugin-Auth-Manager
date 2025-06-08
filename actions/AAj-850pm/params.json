@@ -1,0 +1,5 @@
+{
+    "category": "plugins",
+    "display": "auth_logout",
+    "type": "client_side"
+}

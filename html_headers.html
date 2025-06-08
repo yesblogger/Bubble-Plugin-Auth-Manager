@@ -1,0 +1,206 @@
+<script>
+    // Define URLs using dynamic values
+    const LOGIN_URL = '_*_LOGIN_URL_*_';
+    const SIGNUP_URL = '_*_SIGNUP_URL_*_';
+    const VERIFY_URL = '_*_VERIFY_URL_*_';
+    
+    // Storage keys
+    const TOKEN_STORAGE_KEY = 'auth_manager_token';
+    const USER_DATA = 'auth_manager_user_data';
+
+    // Store Instances as array 
+    const bubbleInstances = [];
+
+    // Utility functions for user data
+    const setUserData = (userData) => {
+        localStorage.setItem(USER_DATA, JSON.stringify({
+            nameFirst: userData.nameFirst,
+            nameLast: userData.nameLast,
+            email: userData.email,
+            customResponse: userData.customResponse
+        }));
+    };
+
+    const getUserData = () => {
+        const data = localStorage.getItem(USER_DATA);
+        return data ? JSON.parse(data) : null;
+    };
+
+    const clearUserData = () => {
+        localStorage.removeItem(USER_DATA);
+    };
+
+    // Modified authentication functions
+    const loginUser = async (credentials) => {
+        try {
+            const response = await fetch(LOGIN_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(credentials)
+            });
+    
+            const data = await response.json();
+    
+            if (!response.ok) {
+                const error = new Error(data.message || 'Login failed');
+                error.status = response.status;
+                throw error;
+            }
+    
+            if (!data.token || !data.user) {
+                const error = new Error('Invalid response from server');
+                error.status = 500;
+                throw error;
+            }
+    
+            localStorage.setItem(TOKEN_STORAGE_KEY, data.token);
+            setUserData(data.user);
+            bubbleInstances.forEach(instance => {
+                instance.data.set_user(data.user);
+            });
+            return data;
+        } catch (error) {
+            // Call error handler once with appropriate status code
+            bubbleInstances[0].data.error(error.message, error.status || 500);
+        }
+    };
+    
+    const signupUser = async (userData) => {
+        try {
+            const response = await fetch(SIGNUP_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+    
+            const data = await response.json();
+    
+            if (!response.ok) {
+                const error = new Error(data.message || 'Signup failed');
+                error.status = response.status;
+                throw error;
+            }
+    
+            if (!data.token || !data.user) {
+                const error = new Error('Invalid response from server');
+                error.status = 500;
+                throw error;
+            }
+    
+            localStorage.setItem(TOKEN_STORAGE_KEY, data.token);
+            setUserData(data.user);
+            bubbleInstances.forEach(instance => {
+                instance.data.set_user(data.user);
+            });
+            return data;
+        } catch (error) {
+            // Call error handler once with appropriate status code
+            bubbleInstances[0].data.error(error.message, error.status || 500);
+        }
+    };
+    
+    const logoutUser = () => {
+        localStorage.removeItem(TOKEN_STORAGE_KEY);
+        clearUserData();
+        bubbleInstances.forEach(instance => {
+            instance.data.log_out();
+        });
+    };
+    
+    const verifyToken = async () => {
+        try {
+            const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+            const userData = getUserData();
+            
+            if (!token || !userData) {
+                throw new Error('No authentication data found');
+            }
+    
+            const response = await fetch(VERIFY_URL, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            const data = await response.json();
+    
+            if (!response.ok) {
+                throw new Error(data.message || 'Token verification failed');
+            }
+    
+            // Refresh user data if provided in verification response
+            if (data.user) {
+                setUserData(data.user);
+                bubbleInstances.forEach(instance => {
+                    instance.data.set_user(data.user);
+                });
+            }
+    
+            return true;
+        } catch (error) {
+            logoutUser();
+            return false;
+        }
+    };
+    
+    // Token expiry checker
+    const startTokenExpiryChecker = () => {
+        // Immediate check when page loads
+        verifyToken().then(isValid => {
+            if (!isValid) {
+                return; // verifyToken already handles logout
+            }
+            
+            // Start periodic checks
+            const intervalId = setInterval(async () => {
+                try {
+                    const isValid = await verifyToken();
+                    if (!isValid) {
+                        clearInterval(intervalId); // Just clear interval, verifyToken handles logout
+                    }
+                } catch (error) {
+                    clearInterval(intervalId);
+                }
+            }, 5 * 60 * 1000); // Check every 5 minutes
+
+            // Store interval ID for potential cleanup
+            window.tokenCheckInterval = intervalId;
+        }).catch(() => {
+            // verifyToken already handles logout
+        });
+    };
+    
+    // Initialize auth state
+    const initializeAuth = async () => {
+        try {
+            const userData = getUserData();
+            if (userData) {
+                bubbleInstances.forEach(instance => {
+                    instance.data.set_user(userData);
+                });
+                // Start token checker only if we have user data
+                startTokenExpiryChecker();
+            }
+        } catch (error) {
+            console.error('Auth initialization failed:', error);
+            logoutUser();
+        }
+    };
+    
+    // Run initialization when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initializeAuth);
+    
+    // Expose functions to global scope for Bubble
+    window.AuthManager = {
+        login: loginUser,
+        signup: signupUser,
+        logout: logoutUser,
+        verify: verifyToken
+    };
+</script>

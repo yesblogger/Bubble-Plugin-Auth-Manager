@@ -1,0 +1,95 @@
+{
+    "add_is_visible": true,
+    "category": "visual elements",
+    "default_dim": {
+        "height": 20,
+        "width": 20
+    },
+    "display": "Auth",
+    "events": {
+        "AAU": {
+            "caption": "Auth user is logged in",
+            "name": "auth_user_is_logged_in"
+        },
+        "AAV": {
+            "caption": "Auth user is logged out",
+            "name": "auth_user_is_logged_out"
+        },
+        "AAW": {
+            "caption": "Auth threw error",
+            "name": "auth_threw_error"
+        }
+    },
+    "icon": "ion-android-person",
+    "platform_type": "web",
+    "property_applications": {
+        "resizable": true
+    },
+    "states": {
+        "AAP": {
+            "caption": "First Name",
+            "initialization_code": {
+                "add_debugger": false,
+                "fn": "function initializeState_first_name(properties, context) {\n    try {\n        const userData = JSON.parse(localStorage.getItem(USER_DATA) || '{}');\n        return userData.nameFirst || '';\n    } catch(err) {\n        return '';\n    }\n}"
+            },
+            "name": "first_name",
+            "value": "text"
+        },
+        "AAQ": {
+            "caption": "Last Name",
+            "initialization_code": {
+                "fn": "function initializeState_last_name(properties, context) {\n    try {\n        const userData = JSON.parse(localStorage.getItem(USER_DATA) || '{}');\n        return userData.nameLast || '';\n    } catch(err) {\n        return '';\n    }\n}"
+            },
+            "name": "last_name",
+            "value": "text"
+        },
+        "AAR": {
+            "caption": "Email",
+            "initialization_code": {
+                "fn": "function initializeState_email(properties, context) {\n    try {\n        const userData = JSON.parse(localStorage.getItem(USER_DATA) || '{}');\n        return userData.email || '';\n    } catch(err) {\n        return '';\n    }\n}"
+            },
+            "name": "email",
+            "value": "text"
+        },
+        "AAS": {
+            "caption": "Is user logged in",
+            "initialization_code": {
+                "fn": "function initializeState_is_logged_in(properties, context) {\n    try {\n        const token = localStorage.getItem(TOKEN_STORAGE_KEY);\n        return !!token; // Returns true if token exists\n    } catch(err) {\n        return false;\n    }\n}"
+            },
+            "name": "is_logged_in",
+            "value": "boolean"
+        },
+        "AAT": {
+            "caption": "Auth Token",
+            "initialization_code": {
+                "fn": "function initializeState_token(properties, context) {\n    try {\n        return localStorage.getItem(TOKEN_STORAGE_KEY) || '';\n    } catch(err) {\n        return '';\n    }\n}"
+            },
+            "name": "token",
+            "value": "text"
+        },
+        "AAf": {
+            "caption": "Status Code",
+            "initialization_code": {
+                "fn": "function initializeState_status_code(properties, context) {\n    return 0; // Default status code\n}"
+            },
+            "name": "status_code",
+            "value": "number"
+        },
+        "AAg": {
+            "caption": "Error Message",
+            "initialization_code": {
+                "fn": "function initializeState_error_message(properties, context) {\n    return ''; // Default empty error message\n}"
+            },
+            "name": "error_message",
+            "value": "text"
+        },
+        "ABF": {
+            "caption": "Custom Response",
+            "initialization_code": {
+                "fn": "function(properties, context) {\n\n\ttry {\n        const userData = JSON.parse(localStorage.getItem(USER_DATA) || '{}');\n        return userData.customResponse || null;\n    } catch(err) {\n        return null;\n    }\n\n}"
+            },
+            "name": "custom_response",
+            "value": "text"
+        }
+    }
+}

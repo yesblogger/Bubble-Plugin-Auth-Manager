@@ -1,0 +1,12 @@
+{
+    "assets": {
+        "AAE": {
+            "name": "logo_main",
+            "url": "//meta-q.cdn.bubble.io/f1735631973304x869081131311362000/auth-plugin-logo.svg"
+        }
+    },
+    "dependencies": {
+        "plugin_api_version": "4",
+        "use_jquery": true
+    }
+}

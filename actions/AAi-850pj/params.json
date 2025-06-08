@@ -1,0 +1,68 @@
+{
+    "category": "plugins",
+    "display": "auth_signup",
+    "fields": {
+        "AAn": {
+            "caption": "First Name",
+            "editor": "DynamicValue",
+            "name": "first_name",
+            "rank": 0,
+            "value": "text"
+        },
+        "AAo": {
+            "caption": "last_name",
+            "editor": "DynamicValue",
+            "name": "last_name",
+            "rank": 1,
+            "value": "text"
+        },
+        "AAp": {
+            "caption": "email",
+            "editor": "DynamicValue",
+            "name": "email",
+            "rank": 2,
+            "value": "text"
+        },
+        "AAq": {
+            "caption": "password",
+            "editor": "DynamicValue",
+            "name": "password",
+            "rank": 3,
+            "value": "text"
+        },
+        "AAv": {
+            "caption": "Additional Fields",
+            "editor": "key_value_list",
+            "name": "additional_fields",
+            "rank": 4,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "ABA": {
+            "caption": "Auth Token",
+            "name": "auth_token",
+            "rank": 0,
+            "value": "text"
+        },
+        "ABB": {
+            "caption": "First Name",
+            "name": "first_name",
+            "rank": 1,
+            "value": "text"
+        },
+        "ABC": {
+            "caption": "Last Name",
+            "name": "last_name",
+            "rank": 2,
+            "value": "text"
+        },
+        "ABD": {
+            "caption": "Email",
+            "name": "email",
+            "rank": 3,
+            "value": "text"
+        }
+    },
+    "type": "client_side"
+}

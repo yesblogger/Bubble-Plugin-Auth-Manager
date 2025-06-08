@@ -1,0 +1,13 @@
+{
+    "categories": {
+        "0": "compliance",
+        "1": "data (things)",
+        "2": "technical"
+    },
+    "description": "A powerful authentication plugin that enables Bubble applications to integrate with custom backend authentication systems. This plugin handles user signup, login, and session management through JWT tokens. It provides seamless state management across page refreshes, automatic token verification, and secure user data storage.\n\nKey features:\n\n1. Custom backend API integration\n2.  JWT token-based authentication\n3. Automatic session persistence\n4. Token expiration monitoring\n5. Secure user data storage\n6. Real-time login state management\n\nPerfect for developers who need to connect their Bubble apps to existing authentication systems or want to implement custom authentication logic.\n\nFor feedback, reporting a bug, or requesting a new feature. Join the conversation on Auth Manager at https://authmanager.sleekplan.app/",
+    "image": "//meta-q.cdn.bubble.io/f1735727514026x924244618793844000/auth-plugin-logo.svg",
+    "license": "open_source",
+    "link": "https://amartyagupta.notion.site/bubble-auth-manager?pvs=4",
+    "name": "Auth Manager",
+    "plugin_instructions": "Read the docs for implementation details: https://amartyagupta.notion.site/bubble-auth-manager"
+}

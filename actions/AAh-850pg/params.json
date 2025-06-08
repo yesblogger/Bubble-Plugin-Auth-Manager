@@ -1,0 +1,54 @@
+{
+    "category": "plugins",
+    "display": "auth_login",
+    "fields": {
+        "AAl": {
+            "caption": "email",
+            "editor": "DynamicValue",
+            "name": "email",
+            "rank": 0,
+            "value": "text"
+        },
+        "AAm": {
+            "caption": "password",
+            "editor": "DynamicValue",
+            "name": "password",
+            "rank": 1,
+            "value": "text"
+        },
+        "AAr": {
+            "caption": "Additional Fields",
+            "editor": "key_value_list",
+            "name": "additional_fields",
+            "rank": 2,
+            "value": "text"
+        }
+    },
+    "return_value": {
+        "AAw": {
+            "caption": "Auth Token",
+            "name": "auth_token",
+            "rank": 0,
+            "value": "text"
+        },
+        "AAx": {
+            "caption": "First Name",
+            "name": "first_name",
+            "rank": 1,
+            "value": "text"
+        },
+        "AAy": {
+            "caption": "Last Name",
+            "name": "last_name",
+            "rank": 2,
+            "value": "text"
+        },
+        "AAz": {
+            "caption": "Email",
+            "name": "email",
+            "rank": 3,
+            "value": "text"
+        }
+    },
+    "type": "client_side"
+}
