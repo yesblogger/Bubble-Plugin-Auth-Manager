@@ -156,21 +156,6 @@
             if (!isValid) {
                 return; // verifyToken already handles logout
             }
-            
-            // Start periodic checks
-            const intervalId = setInterval(async () => {
-                try {
-                    const isValid = await verifyToken();
-                    if (!isValid) {
-                        clearInterval(intervalId); // Just clear interval, verifyToken handles logout
-                    }
-                } catch (error) {
-                    clearInterval(intervalId);
-                }
-            }, 5 * 60 * 1000); // Check every 5 minutes
-
-            // Store interval ID for potential cleanup
-            window.tokenCheckInterval = intervalId;
         }).catch(() => {
             // verifyToken already handles logout
         });
