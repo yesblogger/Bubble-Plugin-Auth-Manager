@@ -10,7 +10,7 @@
             "value": "text"
         },
         "ABO": {
-            "caption": "password",
+            "caption": "otp",
             "editor": "DynamicValue",
             "name": "otp",
             "rank": 1,
