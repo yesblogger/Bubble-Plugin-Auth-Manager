@@ -3,18 +3,11 @@ function(properties, context) {
     //Load any data
     const credentials = {
         email: properties.email,
-        password: properties.password
+        otp: properties.otp
     };
 
-    // Add any additional fields if provided
-    if (properties.additional_fields && Array.isArray(properties.additional_fields)) {
-        properties.additional_fields.forEach(field => {
-            credentials[field.key] = field.value;
-        });
-    }
-
     // Do the operation
-    return window.AuthManager.login(credentials)
+    return window.AuthManager.otplogin(credentials)
         .then(data => {
             return {
                 auth_token: data.access,

@@ -29,7 +29,6 @@
         "AAP": {
             "caption": "First Name",
             "initialization_code": {
-                "add_debugger": false,
                 "fn": "function initializeState_first_name(properties, context) {\n    try {\n        const userData = JSON.parse(localStorage.getItem(USER_DATA) || '{}');\n        return userData.nameFirst || '';\n    } catch(err) {\n        return '';\n    }\n}"
             },
             "name": "first_name",

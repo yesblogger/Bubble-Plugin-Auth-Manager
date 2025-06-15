@@ -1,0 +1,53 @@
+{
+    "category": "plugins",
+    "display": "otp_login",
+    "fields": {
+        "ABN": {
+            "caption": "email",
+            "editor": "DynamicValue",
+            "name": "email",
+            "rank": 0,
+            "value": "text"
+        },
+        "ABO": {
+            "caption": "password",
+            "editor": "DynamicValue",
+            "name": "otp",
+            "rank": 1,
+            "value": "number"
+        }
+    },
+    "return_value": {
+        "AAw": {
+            "caption": "Auth Token",
+            "name": "auth_token",
+            "rank": 0,
+            "value": "text"
+        },
+        "AAx": {
+            "caption": "First Name",
+            "name": "first_name",
+            "rank": 1,
+            "value": "text"
+        },
+        "AAy": {
+            "caption": "Last Name",
+            "name": "last_name",
+            "rank": 2,
+            "value": "text"
+        },
+        "AAz": {
+            "caption": "Email",
+            "name": "email",
+            "rank": 3,
+            "value": "text"
+        },
+        "ABI": {
+            "caption": "id",
+            "name": "id",
+            "rank": 4,
+            "value": "text"
+        }
+    },
+    "type": "server_side"
+}

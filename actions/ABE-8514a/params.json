@@ -1,5 +1,5 @@
 {
     "category": "plugins",
     "display": "auth_verify",
-    "type": "client_side"
+    "type": "server_side"
 }
