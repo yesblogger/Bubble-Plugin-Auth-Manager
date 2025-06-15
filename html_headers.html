@@ -1,6 +1,7 @@
 <script>
     // Define URLs using dynamic values
     const LOGIN_URL = '_*_LOGIN_URL_*_';
+    const OTP_LOGIN_URL = '_*_OTP_LOGIN_URL_*_';
     const SIGNUP_URL = '_*_SIGNUP_URL_*_';
     const VERIFY_URL = '_*_VERIFY_URL_*_';
     
@@ -46,6 +47,42 @@
     
             if (!response.ok) {
                 const error = new Error(data.message || 'Login failed');
+                error.status = response.status;
+                throw error;
+            }
+    
+            if (!data.access || !data.user) {
+                const error = new Error('Invalid response from server');
+                error.status = 500;
+                throw error;
+            }
+    
+            localStorage.setItem(TOKEN_STORAGE_KEY, data.access);
+            setUserData(data.user);
+            bubbleInstances.forEach(instance => {
+                instance.data.set_user(data.user);
+            });
+            return data;
+        } catch (error) {
+            // Call error handler once with appropriate status code
+            bubbleInstances[0].data.error(error.message, error.status || 500);
+        }
+    };
+
+    const otpLogin = async (credentials) => {
+        try {
+            const response = await fetch(OTP_LOGIN_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(credentials)
+            });
+    
+            const data = await response.json();
+    
+            if (!response.ok) {
+                const error = new Error(data.message || 'OTP Login failed');
                 error.status = response.status;
                 throw error;
             }
@@ -187,6 +224,7 @@
         login: loginUser,
         signup: signupUser,
         logout: logoutUser,
-        verify: verifyToken
+        verify: verifyToken,
+        otpLogin: otpLogin
     };
 </script>
