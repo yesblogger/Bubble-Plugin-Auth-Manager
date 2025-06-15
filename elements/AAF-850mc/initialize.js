@@ -14,6 +14,7 @@ function(instance, context) {
         publish('first_name', '');
         publish('email', '');
         publish('last_name', '');
+        publish('id', '');
         publish('is_logged_in', false);
         publish('custom_response', null);
 
@@ -22,8 +23,9 @@ function(instance, context) {
 
     data.set_user = function(user) {
         publish('token', localStorage.getItem(TOKEN_STORAGE_KEY));
-        publish('first_name', user.nameFirst);
-        publish('last_name', user.nameLast);
+        publish('first_name', user.first_name);
+        publish('last_name', user.last_name);
+        publish('id', user.id);
         publish('email', user.email);
         publish('custom_response', user.customResponse);
         publish('is_logged_in', true);

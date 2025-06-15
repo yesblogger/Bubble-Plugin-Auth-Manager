@@ -14,9 +14,10 @@
     // Utility functions for user data
     const setUserData = (userData) => {
         localStorage.setItem(USER_DATA, JSON.stringify({
-            nameFirst: userData.nameFirst,
-            nameLast: userData.nameLast,
+            nameFirst: userData.first_name,
+            nameLast: userData.last_name,
             email: userData.email,
+            id: userData.id,
             customResponse: userData.customResponse
         }));
     };
@@ -49,13 +50,13 @@
                 throw error;
             }
     
-            if (!data.token || !data.user) {
+            if (!data.access || !data.user) {
                 const error = new Error('Invalid response from server');
                 error.status = 500;
                 throw error;
             }
     
-            localStorage.setItem(TOKEN_STORAGE_KEY, data.token);
+            localStorage.setItem(TOKEN_STORAGE_KEY, data.access);
             setUserData(data.user);
             bubbleInstances.forEach(instance => {
                 instance.data.set_user(data.user);
@@ -85,13 +86,13 @@
                 throw error;
             }
     
-            if (!data.token || !data.user) {
+            if (!data.access || !data.user) {
                 const error = new Error('Invalid response from server');
                 error.status = 500;
                 throw error;
             }
     
-            localStorage.setItem(TOKEN_STORAGE_KEY, data.token);
+            // localStorage.setItem(TOKEN_STORAGE_KEY, data.access);
             setUserData(data.user);
             bubbleInstances.forEach(instance => {
                 instance.data.set_user(data.user);

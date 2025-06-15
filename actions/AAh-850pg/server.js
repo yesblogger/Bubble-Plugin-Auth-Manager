@@ -17,10 +17,11 @@ function(properties, context) {
     return window.AuthManager.login(credentials)
         .then(data => {
             return {
-                auth_token: data.token,
+                auth_token: data.access,
                 first_name: data.user.nameFirst,
                 last_name: data.user.nameLast,
-                email: data.user.email
+                email: data.user.email,
+                id: data.user.id
             };
         });
 

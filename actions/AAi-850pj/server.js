@@ -24,10 +24,11 @@ function(properties, context) {
     return window.AuthManager.signup(userData)
         .then(data => {
             return {
-                auth_token: data.token,
+                // auth_token: data.token,
                 first_name: data.user.nameFirst,
                 last_name: data.user.nameLast,
-                email: data.user.email
+                email: data.user.email,
+                id: data.user.id
             };
         });
     

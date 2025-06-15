@@ -9,5 +9,6 @@
     "license": "open_source",
     "link": "https://amartyagupta.notion.site/bubble-auth-manager?pvs=4",
     "name": "Auth Manager",
-    "plugin_instructions": "Read the docs for implementation details: https://amartyagupta.notion.site/bubble-auth-manager"
+    "plugin_instructions": "Read the docs for implementation details: https://amartyagupta.notion.site/bubble-auth-manager",
+    "sa_node_version": 18
 }

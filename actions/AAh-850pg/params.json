@@ -48,7 +48,13 @@
             "name": "email",
             "rank": 3,
             "value": "text"
+        },
+        "ABI": {
+            "caption": "id",
+            "name": "id",
+            "rank": 4,
+            "value": "text"
         }
     },
-    "type": "client_side"
+    "type": "server_side"
 }
