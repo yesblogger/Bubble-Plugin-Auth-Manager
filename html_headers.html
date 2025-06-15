@@ -60,7 +60,7 @@
             localStorage.setItem(TOKEN_STORAGE_KEY, data.access);
             setUserData(data.user);
             bubbleInstances.forEach(instance => {
-                instance.data.set_user(data.user);
+                instance.data.set_user(data.user, response.status);
             });
             return data;
         } catch (error) {
@@ -96,7 +96,7 @@
             localStorage.setItem(TOKEN_STORAGE_KEY, data.access);
             setUserData(data.user);
             bubbleInstances.forEach(instance => {
-                instance.data.set_user(data.user);
+                instance.data.set_user(data.user, response.status);
             });
             return data;
         } catch (error) {
@@ -132,7 +132,7 @@
             // localStorage.setItem(TOKEN_STORAGE_KEY, data.access);
             setUserData(data.user);
             bubbleInstances.forEach(instance => {
-                instance.data.set_user(data.user);
+                instance.data.set_user(data.user, response.status);
             });
             return data;
         } catch (error) {
@@ -176,7 +176,7 @@
             if (data.user) {
                 setUserData(data.user);
                 bubbleInstances.forEach(instance => {
-                    instance.data.set_user(data.user);
+                    instance.data.set_user(data.user, response.status);
                 });
             }
     
@@ -205,7 +205,7 @@
             const userData = getUserData();
             if (userData) {
                 bubbleInstances.forEach(instance => {
-                    instance.data.set_user(userData);
+                    instance.data.set_user(userData, 200);
                 });
                 // Start token checker only if we have user data
                 startTokenExpiryChecker();

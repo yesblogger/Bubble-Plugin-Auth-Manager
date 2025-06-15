@@ -21,7 +21,7 @@ function(instance, context) {
         trigger('auth_user_is_logged_out');
     };
 
-    data.set_user = function(user) {
+    data.set_user = function(user, statusCode) {
         publish('token', localStorage.getItem(TOKEN_STORAGE_KEY));
         publish('first_name', user.first_name);
         publish('last_name', user.last_name);
@@ -29,7 +29,7 @@ function(instance, context) {
         publish('email', user.email);
         publish('custom_response', user.customResponse);
         publish('is_logged_in', true);
-
+        publish('status_code', statusCode);
         trigger('auth_user_is_logged_in');
     };
 
