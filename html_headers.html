@@ -65,7 +65,11 @@
             return data;
         } catch (error) {
             // Call error handler once with appropriate status code
-            bubbleInstances[0].data.error(error.message, error.status || 500);
+            if (bubbleInstances.length > 0 && bubbleInstances[0].data?.error) {
+                bubbleInstances[0].data.error(error.message, error.status || 500);
+            } else {
+                console.error('Auth error:', error.message);
+            }
         }
     };
 
@@ -101,7 +105,11 @@
             return data;
         } catch (error) {
             // Call error handler once with appropriate status code
-            bubbleInstances[0].data.error(error.message, error.status || 500);
+            if (bubbleInstances.length > 0 && bubbleInstances[0].data?.error) {
+                bubbleInstances[0].data.error(error.message, error.status || 500);
+            } else {
+                console.error('Auth error:', error.message);
+            }
         }
     };
     
@@ -137,7 +145,11 @@
             return data;
         } catch (error) {
             // Call error handler once with appropriate status code
-            bubbleInstances[0].data.error(error.message, error.status || 500);
+            if (bubbleInstances.length > 0 && bubbleInstances[0].data?.error) {
+                bubbleInstances[0].data.error(error.message, error.status || 500);
+            } else {
+                console.error('Auth error:', error.message);
+            }
         }
     };
     
@@ -216,8 +228,6 @@
         }
     };
     
-    // Run initialization when DOM is loaded
-    document.addEventListener('DOMContentLoaded', initializeAuth);
     
     // Expose functions to global scope for Bubble
     window.AuthManager = {
@@ -227,4 +237,8 @@
         verify: verifyToken,
         otplogin: otpLogin
     };
+
+    // Run initialization when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initializeAuth);
+    
 </script>

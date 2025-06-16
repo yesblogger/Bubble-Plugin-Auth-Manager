@@ -16,6 +16,9 @@ function(properties, context) {
                 email: data.user.email,
                 id: data.user.id
             };
+        })
+        .catch(error => {
+            throw new Error(error.message || 'OTP Login failed');
         });
 
 }
