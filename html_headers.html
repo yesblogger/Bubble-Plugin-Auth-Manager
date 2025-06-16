@@ -235,8 +235,10 @@
             logoutUser();
         }
     };
-    
-    
+
+    // Run initialization when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initializeAuth);
+
     // Expose functions to global scope for Bubble
     window.AuthManager = {
         login: loginUser,
@@ -245,8 +247,5 @@
         verify: verifyToken,
         otplogin: otpLogin
     };
-
-    // Run initialization when DOM is loaded
-    document.addEventListener('DOMContentLoaded', initializeAuth);
     
 </script>

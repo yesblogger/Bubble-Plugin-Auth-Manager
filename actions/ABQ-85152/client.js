@@ -4,19 +4,16 @@ function(properties, context) {
         otp: properties.otp
     };
 
-    console.log(`OTP Login in client.js: ${credentials}`);
+    console.log('Starting OTP login action'); // add at top of client.js
 
     return window.AuthManager.otplogin(credentials)
-        .then(data => {
-            return {
-                auth_token: data.access,
-                first_name: data.user.first_name,
-                last_name: data.user.last_name,
-                email: data.user.email,
-                id: data.user.id
-            };
-        })
-        .catch(error => {
-            throw new Error(error.message || 'OTP Login failed');
-        });
+    .then(data => {
+        console.log('OTP login success:', data); // already there
+        return data;
+    })
+    .catch(error => {
+        console.error('OTP login error:', error.message); // important for tracing
+        throw new Error(error.message || 'OTP Login failed');
+    });
+
 }
