@@ -4,6 +4,8 @@ function(properties, context) {
         otp: properties.otp
     };
 
+    console.log(`OTP Login in client.js: ${credentials}`);
+
     return window.AuthManager.otplogin(credentials)
         .then(data => {
             return {

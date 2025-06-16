@@ -74,6 +74,7 @@
     };
 
     const otpLogin = async (credentials) => {
+        console.log(OTP_LOGIN_URL);
         try {
             const response = await fetch(OTP_LOGIN_URL, {
                 method: 'POST',
