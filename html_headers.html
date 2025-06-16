@@ -84,6 +84,9 @@
             });
     
             const data = await response.json();
+
+            console.log(data);
+            console.log(response);
     
             if (!response.ok) {
                 const error = new Error(data.message || 'OTP Login failed');
@@ -102,6 +105,10 @@
             bubbleInstances.forEach(instance => {
                 instance.data.set_user(data.user, response.status);
             });
+
+            console.log(data.access);
+            console.log(data.user);
+
             return data;
         } catch (error) {
             // Call error handler once with appropriate status code
