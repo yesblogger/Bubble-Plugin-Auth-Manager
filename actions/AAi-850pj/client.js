@@ -1,6 +1,4 @@
 function(properties, context) {
-
-    //Load any data
     const userData = {
         email: properties.email,
         password: properties.password,
@@ -8,14 +6,22 @@ function(properties, context) {
         nameLast: properties.last_name
     };
 
-    // Add any additional fields if provided
-    if (properties.additional_fields && Array.isArray(properties.additional_fields)) {
+    if (Array.isArray(properties.additional_fields)) {
         properties.additional_fields.forEach(field => {
             userData[field.key] = field.value;
         });
     }
 
-    // Do the operation
-    return window.AuthManager.signup(userData);
-
+    return window.AuthManager.signup(userData)
+        .then(data => {
+            return {
+                first_name: data.user.first_name,
+                last_name: data.user.last_name,
+                email: data.user.email,
+                id: data.user.id
+            };
+        })
+        .catch(error => {
+            throw new Error(error.message || 'Signup failed');
+        });
 }
