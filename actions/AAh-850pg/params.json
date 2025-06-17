@@ -56,5 +56,5 @@
             "value": "text"
         }
     },
-    "type": "server_side"
+    "type": "client_side"
 }
