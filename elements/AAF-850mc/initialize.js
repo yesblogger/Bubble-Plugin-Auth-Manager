@@ -7,6 +7,10 @@ function(instance, context) {
     const i = instance,
           c = context;
 
+    // --- Constants ---
+    const TOKEN_STORAGE_KEY = 'auth_manager_token';
+    const USER_DATA = 'auth_manager_user_data';
+
     bubbleInstances.push(instance);
 
     data.log_out = function() {
