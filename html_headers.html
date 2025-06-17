@@ -1,183 +1,159 @@
 <script>
-    // Define URLs using dynamic values
+    // --- URL Definitions ---
     const LOGIN_URL = '_*_LOGIN_URL_*_';
     const OTP_LOGIN_URL = '_*_OTP_LOGIN_URL_*_';
     const SIGNUP_URL = '_*_SIGNUP_URL_*_';
     const VERIFY_URL = '_*_VERIFY_URL_*_';
-    
-    // Storage keys
+
+    console.debug('[AuthManager] Plugin Initialized');
+    console.debug('[AuthManager] LOGIN_URL:', LOGIN_URL);
+    console.debug('[AuthManager] OTP_LOGIN_URL:', OTP_LOGIN_URL);
+    console.debug('[AuthManager] SIGNUP_URL:', SIGNUP_URL);
+    console.debug('[AuthManager] VERIFY_URL:', VERIFY_URL);
+
+    // --- Constants ---
     const TOKEN_STORAGE_KEY = 'auth_manager_token';
     const USER_DATA = 'auth_manager_user_data';
 
-    // Store Instances as array 
     const bubbleInstances = [];
 
-    // Utility functions for user data
+    // --- User Data Utilities ---
     const setUserData = (userData) => {
+        console.debug('[AuthManager] Setting user data:', userData);
         localStorage.setItem(USER_DATA, JSON.stringify({
             nameFirst: userData.first_name,
             nameLast: userData.last_name,
             email: userData.email,
             id: userData.id,
-            customResponse: userData.custom_response
+            customResponse: userData.customResponse
         }));
     };
 
     const getUserData = () => {
-        const data = localStorage.getItem(USER_DATA);
-        return data ? JSON.parse(data) : null;
+        try {
+            const data = localStorage.getItem(USER_DATA);
+            const parsed = data ? JSON.parse(data) : null;
+            console.debug('[AuthManager] Retrieved user data:', parsed);
+            return parsed;
+        } catch (err) {
+            console.error('[AuthManager] Failed to parse user data:', err);
+            return null;
+        }
     };
 
     const clearUserData = () => {
+        console.debug('[AuthManager] Clearing user data');
         localStorage.removeItem(USER_DATA);
     };
 
-    // Modified authentication functions
+    // --- Auth Functions ---
     const loginUser = async (credentials) => {
+        console.debug('[AuthManager] loginUser called with:', credentials);
         try {
+            console.debug('[AuthManager] Sending login POST to:', LOGIN_URL);
             const response = await fetch(LOGIN_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(credentials)
             });
-    
+
             const data = await response.json();
-    
-            if (!response.ok) {
-                const error = new Error(data.message || 'Login failed');
-                error.status = response.status;
-                throw error;
-            }
-    
-            if (!data.access || !data.user) {
-                const error = new Error('Invalid response from server');
-                error.status = 500;
-                throw error;
-            }
-    
+            console.debug('[AuthManager] Login response:', data);
+
+            if (!response.ok) throw new Error(data.message || 'Login failed');
+            if (!data.access || !data.user) throw new Error('Invalid login response');
+
             localStorage.setItem(TOKEN_STORAGE_KEY, data.access);
             setUserData(data.user);
-            bubbleInstances.forEach(instance => {
-                instance.data.set_user(data.user, response.status);
-            });
+
+            if (bubbleInstances.length === 0) console.warn('[AuthManager] No bubble instances found');
+            bubbleInstances.forEach(instance => instance.data.set_user(data.user, response.status));
+
             return data;
+
         } catch (error) {
-            // Call error handler once with appropriate status code
-            if (bubbleInstances.length > 0 && bubbleInstances[0].data?.error) {
+            console.error('[AuthManager] loginUser error:', error);
+            if (bubbleInstances.length > 0)
                 bubbleInstances[0].data.error(error.message, error.status || 500);
-            } else {
-                console.error('Auth error:', error.message);
-            }
         }
     };
 
     const otpLogin = async (credentials) => {
-        console.log(OTP_LOGIN_URL);
+        console.debug('[AuthManager] otpLogin called with:', credentials);
         try {
+            console.debug('[AuthManager] Sending OTP login POST to:', OTP_LOGIN_URL);
             const response = await fetch(OTP_LOGIN_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(credentials)
             });
-    
-            const data = await response.json();
 
-            console.log(data);
-            console.log(response);
-    
-            if (!response.ok) {
-                const error = new Error(data.message || 'OTP Login failed');
-                error.status = response.status;
-                throw error;
-            }
-    
-            if (!data.access || !data.user) {
-                const error = new Error('Invalid response from server');
-                error.status = 500;
-                throw error;
-            }
-    
+            const data = await response.json();
+            console.debug('[AuthManager] OTP Login response:', data);
+
+            if (!response.ok) throw new Error(data.message || 'OTP Login failed');
+            if (!data.access || !data.user) throw new Error('Invalid OTP login response');
+
             localStorage.setItem(TOKEN_STORAGE_KEY, data.access);
             setUserData(data.user);
-            bubbleInstances.forEach(instance => {
-                instance.data.set_user(data.user, response.status);
-            });
-
-            console.log(data.access);
-            console.log(data.user);
+            bubbleInstances.forEach(instance => instance.data.set_user(data.user, response.status));
 
             return data;
+
         } catch (error) {
-            // Call error handler once with appropriate status code
-            if (bubbleInstances.length > 0 && bubbleInstances[0].data?.error) {
+            console.error('[AuthManager] otpLogin error:', error);
+            if (bubbleInstances.length > 0)
                 bubbleInstances[0].data.error(error.message, error.status || 500);
-            } else {
-                console.error('Auth error:', error.message);
-            }
         }
     };
-    
+
     const signupUser = async (userData) => {
+        console.debug('[AuthManager] signupUser called with:', userData);
         try {
+            console.debug('[AuthManager] Sending signup POST to:', SIGNUP_URL);
             const response = await fetch(SIGNUP_URL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData)
             });
-    
+
             const data = await response.json();
-    
-            if (!response.ok) {
-                const error = new Error(data.message || 'Signup failed');
-                error.status = response.status;
-                throw error;
-            }
-    
-            if (!data.access || !data.user) {
-                const error = new Error('Invalid response from server');
-                error.status = 500;
-                throw error;
-            }
-    
-            localStorage.setItem(TOKEN_STORAGE_KEY, data.access);
+            console.debug('[AuthManager] Signup response:', data);
+
+            if (!response.ok) throw new Error(data.message || 'Signup failed');
+            if (!data.access || !data.user) throw new Error('Invalid signup response');
+
+            // Do not save token intentionally
             setUserData(data.user);
-            bubbleInstances.forEach(instance => {
-                instance.data.set_user(data.user, response.status);
-            });
+            bubbleInstances.forEach(instance => instance.data.set_user(data.user, response.status));
+
             return data;
+
         } catch (error) {
-            // Call error handler once with appropriate status code
-            if (bubbleInstances.length > 0 && bubbleInstances[0].data?.error) {
+            console.error('[AuthManager] signupUser error:', error);
+            if (bubbleInstances.length > 0)
                 bubbleInstances[0].data.error(error.message, error.status || 500);
-            } else {
-                console.error('Auth error:', error.message);
-            }
         }
     };
-    
+
     const logoutUser = () => {
+        console.debug('[AuthManager] logoutUser called');
         localStorage.removeItem(TOKEN_STORAGE_KEY);
         clearUserData();
-        bubbleInstances.forEach(instance => {
-            instance.data.log_out();
-        });
+        bubbleInstances.forEach(instance => instance.data.log_out());
     };
-    
+
     const verifyToken = async () => {
+        console.debug('[AuthManager] verifyToken called');
         try {
             const token = localStorage.getItem(TOKEN_STORAGE_KEY);
             const userData = getUserData();
-            
+
             if (!token || !userData) {
+                console.warn('[AuthManager] No token or user data found for verification');
                 throw new Error('No authentication data found');
             }
-    
+
             const response = await fetch(VERIFY_URL, {
                 method: 'POST',
                 headers: {
@@ -185,61 +161,48 @@
                     'Content-Type': 'application/json'
                 }
             });
-    
+
             const data = await response.json();
-    
-            if (!response.ok) {
-                throw new Error(data.message || 'Token verification failed');
-            }
-    
-            // Refresh user data if provided in verification response
+            console.debug('[AuthManager] Verify response:', data);
+
+            if (!response.ok) throw new Error(data.message || 'Token verification failed');
+
             if (data.user) {
                 setUserData(data.user);
-                bubbleInstances.forEach(instance => {
-                    instance.data.set_user(data.user, response.status);
-                });
+                bubbleInstances.forEach(instance => instance.data.set_user(data.user, response.status));
             }
-    
+
             return true;
+
         } catch (error) {
+            console.error('[AuthManager] verifyToken error:', error);
             logoutUser();
             return false;
         }
     };
-    
-    // Token expiry checker
-    const startTokenExpiryChecker = () => {
-        // Immediate check when page loads
-        verifyToken().then(isValid => {
-            if (!isValid) {
-                return; // verifyToken already handles logout
-            }
-        }).catch(() => {
-            // verifyToken already handles logout
-        });
-    };
-    
-    // Initialize auth state
+
+    // --- Initialization ---
     const initializeAuth = async () => {
+        console.debug('[AuthManager] initializeAuth called');
         try {
             const userData = getUserData();
             if (userData) {
-                bubbleInstances.forEach(instance => {
-                    instance.data.set_user(userData, 200);
-                });
-                // Start token checker only if we have user data
-                startTokenExpiryChecker();
+                console.debug('[AuthManager] Setting initial auth state');
+                bubbleInstances.forEach(instance => instance.data.set_user(userData, 200));
+                // Optionally startTokenExpiryChecker()
             }
         } catch (error) {
-            console.error('Auth initialization failed:', error);
+            console.error('[AuthManager] Auth initialization failed:', error);
             logoutUser();
         }
     };
 
-    // Run initialization when DOM is loaded
-    document.addEventListener('DOMContentLoaded', initializeAuth);
+    document.addEventListener('DOMContentLoaded', () => {
+        console.debug('[AuthManager] DOMContentLoaded event triggered');
+        initializeAuth();
+    });
 
-    // Expose functions to global scope for Bubble
+    // --- Global Scope ---
     window.AuthManager = {
         login: loginUser,
         signup: signupUser,
@@ -247,5 +210,4 @@
         verify: verifyToken,
         otplogin: otpLogin
     };
-    
 </script>
