@@ -8,8 +8,8 @@ function(instance, context) {
           c = context;
 
     // --- Constants ---
-    const TOKEN_STORAGE_KEY = 'auth_manager_token';
-    const USER_DATA = 'auth_manager_user_data';
+    // const TOKEN_STORAGE_KEY = 'auth_manager_token';
+    // const USER_DATA = 'auth_manager_user_data';
 
     bubbleInstances.push(instance);
 
@@ -23,6 +23,7 @@ function(instance, context) {
         publish('custom_response', null);
 
         trigger('auth_user_is_logged_out');
+        console.debug('[AuthManager] log_out called');
     };
 
     data.set_user = function(user, statusCode) {
@@ -35,6 +36,7 @@ function(instance, context) {
         publish('is_logged_in', true);
         publish('status_code', statusCode);
         trigger('auth_user_is_logged_in');
+        console.debug('[AuthManager] set_user called');
     };
 
     data.error = function(message, statusCode) {
@@ -43,5 +45,6 @@ function(instance, context) {
         publish('error_message', message);
         publish('status_code', statusCode);
         trigger('auth_threw_error');
+        console.debug('[AuthManager] error called');
     };
 }
