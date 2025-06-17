@@ -19,7 +19,7 @@
             nameLast: userData.last_name,
             email: userData.email,
             id: userData.id,
-            customResponse: userData.customResponse
+            customResponse: userData.custom_response
         }));
     };
 
@@ -145,7 +145,7 @@
                 throw error;
             }
     
-            // localStorage.setItem(TOKEN_STORAGE_KEY, data.access);
+            localStorage.setItem(TOKEN_STORAGE_KEY, data.access);
             setUserData(data.user);
             bubbleInstances.forEach(instance => {
                 instance.data.set_user(data.user, response.status);

@@ -27,7 +27,7 @@ function(instance, context) {
         publish('last_name', user.last_name);
         publish('id', user.id);
         publish('email', user.email);
-        publish('custom_response', user.customResponse);
+        publish('custom_response', user.custom_response);
         publish('is_logged_in', true);
         publish('status_code', statusCode);
         trigger('auth_user_is_logged_in');
