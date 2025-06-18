@@ -189,6 +189,7 @@
             const token = localStorage.getItem(TOKEN_STORAGE_KEY);
             if (userData && token) {
                 console.debug('[AuthManager] Setting initial auth state');
+                console.debug('[AuthManager] bubbleinstances:', bubbleInstances);
                 bubbleInstances.forEach(instance => instance.data.set_user(userData, 200, true));
                 // Optionally startTokenExpiryChecker()
             }
