@@ -33,6 +33,7 @@ function(instance, context) {
         publish('status_code', statusCode);
         if (is_logged_in) { 
             trigger('auth_user_is_logged_in');
+        }
         console.debug('[AuthManager] set_user called');
     };
 
