@@ -26,5 +26,5 @@
     },
     "return_value": {
     },
-    "type": "server_side"
+    "type": "client_side"
 }

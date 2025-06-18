@@ -85,7 +85,7 @@
         "ABF": {
             "caption": "Custom Response",
             "initialization_code": {
-                "fn": "function(properties, context) {\n\n\ttry {\n        const userData = JSON.parse(localStorage.getItem(USER_DATA) || '{}');\n        return userData.customResponse || null;\n    } catch(err) {\n        return null;\n    }\n\n}"
+                "fn": "function initializeState_custom_response(properties, context) {\n\n\ttry {\n        const userData = JSON.parse(localStorage.getItem(USER_DATA) || '{}');\n        return userData.customResponse || null;\n    } catch(err) {\n        return null;\n    }\n\n}"
             },
             "name": "custom_response",
             "value": "text"
@@ -93,7 +93,7 @@
         "ABG": {
             "caption": "id",
             "initialization_code": {
-                "fn": "function initializeState_email(properties, context) {\n    try {\n        const userData = JSON.parse(localStorage.getItem(USER_DATA) || '{}');\n        return userData.id || '';\n    } catch(err) {\n        return '';\n    }\n}"
+                "fn": "function initializeState_id(properties, context) {\n    try {\n        const userData = JSON.parse(localStorage.getItem(USER_DATA) || '{}');\n        return userData.id || '';\n    } catch(err) {\n        return '';\n    }\n}"
             },
             "name": "id",
             "value": "text"

@@ -1,4 +1,4 @@
-function initializeState_email(properties, context) {
+function initializeState_id(properties, context) {
     try {
         const userData = JSON.parse(localStorage.getItem(USER_DATA) || '{}');
         return userData.id || '';
