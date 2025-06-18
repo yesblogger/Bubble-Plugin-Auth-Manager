@@ -45,4 +45,6 @@ function(instance, context) {
         trigger('auth_threw_error');
         console.debug('[AuthManager] error called');
     };
+
+    initializeAuth();
 }
