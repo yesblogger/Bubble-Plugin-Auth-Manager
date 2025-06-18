@@ -67,7 +67,7 @@
             setUserData(data.user);
 
             if (bubbleInstances.length === 0) console.warn('[AuthManager] No bubble instances found');
-            bubbleInstances.forEach(instance => instance.data.set_user(data.user, response.status));
+            bubbleInstances.forEach(instance => instance.data.set_user(data.user, response.status, true));
 
             return data;
 
@@ -96,7 +96,7 @@
 
             localStorage.setItem(TOKEN_STORAGE_KEY, data.access);
             setUserData(data.user);
-            bubbleInstances.forEach(instance => instance.data.set_user(data.user, response.status));
+            bubbleInstances.forEach(instance => instance.data.set_user(data.user, response.status, true));
 
             return data;
 
@@ -121,11 +121,11 @@
             console.debug('[AuthManager] Signup response:', data);
 
             if (!response.ok) throw new Error(data.message || 'Signup failed');
-            if (!data.access || !data.user) throw new Error('Invalid signup response');
+            if (!data.user) throw new Error('Invalid signup response');
 
             // Do not save token intentionally
             setUserData(data.user);
-            bubbleInstances.forEach(instance => instance.data.set_user(data.user, response.status));
+            bubbleInstances.forEach(instance => instance.data.set_user(data.user, response.status, false));
 
             return data;
 
@@ -169,7 +169,7 @@
 
             if (data.user) {
                 setUserData(data.user);
-                bubbleInstances.forEach(instance => instance.data.set_user(data.user, response.status));
+                bubbleInstances.forEach(instance => instance.data.set_user(data.user, response.status, true));
             }
 
             return true;
@@ -186,9 +186,10 @@
         console.debug('[AuthManager] initializeAuth called');
         try {
             const userData = getUserData();
-            if (userData) {
+            const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+            if (userData && token) {
                 console.debug('[AuthManager] Setting initial auth state');
-                bubbleInstances.forEach(instance => instance.data.set_user(userData, 200));
+                bubbleInstances.forEach(instance => instance.data.set_user(userData, 200, true));
                 // Optionally startTokenExpiryChecker()
             }
         } catch (error) {

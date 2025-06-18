@@ -22,16 +22,17 @@ function(instance, context) {
         console.debug('[AuthManager] log_out called');
     };
 
-    data.set_user = function(user, statusCode) {
+    data.set_user = function(user, statusCode, is_logged_in) {
         publish('token', localStorage.getItem(TOKEN_STORAGE_KEY));
         publish('first_name', user.first_name);
         publish('last_name', user.last_name);
         publish('id', user.id);
         publish('email', user.email);
         publish('custom_response', user.custom_response);
-        publish('is_logged_in', true);
+        publish('is_logged_in', is_logged_in);
         publish('status_code', statusCode);
-        trigger('auth_user_is_logged_in');
+        if (is_logged_in) { 
+            trigger('auth_user_is_logged_in');
         console.debug('[AuthManager] set_user called');
     };
 
