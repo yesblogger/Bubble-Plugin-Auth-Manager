@@ -199,11 +199,6 @@
         }
     };
 
-    document.addEventListener('DOMContentLoaded', () => {
-        console.debug('[AuthManager] DOMContentLoaded event triggered');
-        initializeAuth();
-    });
-
     // --- Global Scope ---
     window.AuthManager = {
         login: loginUser,
@@ -212,4 +207,9 @@
         verify: verifyToken,
         otplogin: otpLogin
     };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        console.debug('[AuthManager] DOMContentLoaded event triggered');
+        initializeAuth();
+    });
 </script>
