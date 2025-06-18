@@ -39,36 +39,6 @@
         }
     },
     "return_value": {
-        "ABA": {
-            "caption": "Auth Token",
-            "name": "auth_token",
-            "rank": 0,
-            "value": "text"
-        },
-        "ABB": {
-            "caption": "First Name",
-            "name": "first_name",
-            "rank": 1,
-            "value": "text"
-        },
-        "ABC": {
-            "caption": "Last Name",
-            "name": "last_name",
-            "rank": 2,
-            "value": "text"
-        },
-        "ABD": {
-            "caption": "Email",
-            "name": "email",
-            "rank": 3,
-            "value": "text"
-        },
-        "ABH": {
-            "caption": "id",
-            "name": "id",
-            "rank": 4,
-            "value": "text"
-        }
     },
     "type": "client_side"
 }
